@@ -1,20 +1,20 @@
 import { AiOutlineUserAdd, AiOutlineLock, AiOutlineStar } from "react-icons/ai";
-import { dashboard } from "./path";
+import { addNew, giveRating, resetPassword } from "./path";
 
 export const sidebarLinks = [
   {
     icon: AiOutlineUserAdd,
     text: "Add New",
-    link: dashboard + "/add-new",
+    link: addNew,
   },
   {
     icon: AiOutlineLock,
     text: "Change Password",
-    link: dashboard + "/reset-password",
+    link: resetPassword,
   },
   {
     icon: AiOutlineStar,
     text: "Give Rating",
-    link: dashboard + "/give-rating",
+    link: giveRating,
   },
 ];

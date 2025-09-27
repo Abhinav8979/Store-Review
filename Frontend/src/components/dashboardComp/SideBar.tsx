@@ -15,7 +15,6 @@ const SideBar: React.FC = () => {
 
   return (
     <>
-      {/* Top Menu */}
       <div>
         <h2 className="text-xl font-bold mb-6 text-[var(--primary)]">Menu</h2>
         <ul className="space-y-4">
@@ -38,7 +37,6 @@ const SideBar: React.FC = () => {
         </ul>
       </div>
 
-      {/* Logout */}
       <div>
         <Button
           variant="ghost"
