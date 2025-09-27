@@ -11,7 +11,7 @@ import {
 const ResetPassword: React.FC = () => {
   const methods = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
-    mode: "onTouched",
+    mode: "onSubmit",
   });
 
   const {

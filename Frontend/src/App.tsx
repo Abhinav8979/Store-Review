@@ -5,11 +5,13 @@ import {
   addNew,
   dashboard,
   login,
+  management,
   resetPassword,
   signup,
 } from "./constants/path";
 import ResetPassword from "./page/dashboard/ResetPassword";
 import Create from "./page/dashboard/add new/Create";
+import Management from "./page/dashboard/management/Management";
 
 export default function App() {
   return (
@@ -23,6 +25,7 @@ export default function App() {
           <Route path={resetPassword} element={<ResetPassword />} />
           {/* <Route path="give-rating" element={<GiveRating />} /> */}
           <Route path={addNew} element={<Create />} />
+          <Route path={management} element={<Management />} />
           {/* Default nested route */}
           {/* <Route index element={<div>Welcome to Dashboard</div>} /> */}
         </Route>

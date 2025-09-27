@@ -1,4 +1,3 @@
-// Create.tsx
 import { useEffect, useMemo } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
@@ -17,9 +16,8 @@ import AddStoreForm from "../../../components/administratorComp/AddStoreForm";
 
 const Create = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const tab = searchParams.get("add") || "user"; // default tab
+  const tab = searchParams.get("add") || "user";
 
-  // Decide which schema to use dynamically
   const currentSchema = useMemo(() => {
     if (tab === "admin") return adminSchema;
     if (tab === "store") return storeSchema;
@@ -28,10 +26,9 @@ const Create = () => {
 
   type FormValues = UserFormValues | AdminFormValues | StoreFormValues;
 
-  // react-hook-form with dynamic resolver
   const methods = useForm<FormValues>({
     resolver: zodResolver(currentSchema),
-    mode: "onTouched",
+    mode: "onSubmit",
   });
 
   const {
@@ -40,7 +37,6 @@ const Create = () => {
     formState: { errors },
   } = methods;
 
-  // Reset form on tab change
   useEffect(() => {
     reset();
   }, [tab, reset]);
@@ -51,8 +47,7 @@ const Create = () => {
   };
 
   return (
-    <div className="p-6 space-y-6 min-h-screen bg-[var(--background)] flex flex-col items-center">
-      {/* Tabs */}
+    <div className="p-6 space-y-6 min-h-screen bg-[var(--background)] flex flex-col items-center justify-center">
       <div className="flex space-x-4 mb-6">
         <button
           className={`px-4 py-2 rounded ${
@@ -80,11 +75,10 @@ const Create = () => {
         </button>
       </div>
 
-      {/* Form */}
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-[var(--card)] p-6 shadow-lg rounded w-full max-w-lg space-y-4"
+          className="bg-[var(--card)] p-6 border rounded w-full max-w-lg space-y-4"
         >
           {tab === "user" && (
             <AddUserForm register={methods.register} errors={errors} />

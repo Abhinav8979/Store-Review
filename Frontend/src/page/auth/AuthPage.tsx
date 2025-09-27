@@ -13,7 +13,7 @@ const Auth: React.FC = () => {
 
   const methods = useForm<AuthFormData>({
     resolver: zodResolver(authSchema),
-    mode: "onTouched",
+    mode: "onSubmit",
     defaultValues: {
       name: "",
       email: "",

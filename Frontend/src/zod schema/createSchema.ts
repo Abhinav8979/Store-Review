@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { adminRoles } from "../constants/role";
 
 const nameSchema = z
   .string()
@@ -33,7 +34,7 @@ export const adminSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
   address: addressSchema,
-  role: z.enum(["SUPER_ADMIN", "ADMIN", "MODERATOR"]),
+  role: z.enum(adminRoles),
 });
 
 export const storeSchema = z.object({
