@@ -4,7 +4,13 @@ import {
   AiOutlineStar,
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
-import { addNew, giveRating, management, resetPassword } from "./path";
+import {
+  addNew,
+  giveRating,
+  management,
+  resetPassword,
+  seeRatings,
+} from "./path";
 
 export const sidebarLinks = [
   {
@@ -22,10 +28,14 @@ export const sidebarLinks = [
     text: "Management",
     link: management,
   },
-
   {
     icon: AiOutlineStar,
     text: "Give Rating",
     link: giveRating,
+  },
+  {
+    icon: AiOutlineStar,
+    text: "See Ratings",
+    link: seeRatings,
   },
 ];

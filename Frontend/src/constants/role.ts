@@ -1,1 +1,1 @@
-export const adminRoles = ["USER", "ADMIN", "STOREOWNER"];
+export const adminRoles = ["Normal User", "System Administrator", "Store Owner"];

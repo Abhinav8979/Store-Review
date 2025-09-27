@@ -1,5 +1,6 @@
 import type { FieldErrors } from "react-hook-form";
 import type { StoreFormValues } from "../../zod schema/createSchema";
+import Input from "../../ui/Input";
 
 type Props = {
   register: any;
@@ -9,7 +10,7 @@ type Props = {
 const AddStoreForm = ({ register, errors }: Props) => {
   return (
     <div className="space-y-4">
-      <input
+      <Input
         type="text"
         placeholder="Store Name"
         {...register("storeName")}
@@ -19,7 +20,7 @@ const AddStoreForm = ({ register, errors }: Props) => {
         <p className="text-red-500">{errors.storeName.message as string}</p>
       )}
 
-      <input
+      <Input
         type="text"
         placeholder="Store Address"
         {...register("storeAddress")}
@@ -29,7 +30,7 @@ const AddStoreForm = ({ register, errors }: Props) => {
         <p className="text-red-500">{errors.storeAddress.message as string}</p>
       )}
 
-      <input
+      <Input
         type="text"
         placeholder="Owner Name"
         {...register("ownerName")}
@@ -39,7 +40,7 @@ const AddStoreForm = ({ register, errors }: Props) => {
         <p className="text-red-500">{errors.ownerName.message as string}</p>
       )}
 
-      <input
+      <Input
         type="email"
         placeholder="Owner Email"
         {...register("ownerEmail")}

@@ -4,19 +4,22 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineLogout } from "react-icons/ai";
 import { sidebarLinks } from "../../constants/dashboardLinks";
 import Button from "../../ui/Button";
+import { login } from "../../constants/path";
 
 const SideBar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = () => {
-    navigate("/login");
+    navigate(login);
   };
 
   return (
     <>
       <div>
-        <h2 className="text-xl font-bold mb-6 text-[var(--primary)]">Menu</h2>
+        <h2 className="text-xl font-bold mb-6 text-[var(--primary)]">
+          Dashboard
+        </h2>
         <ul className="space-y-4">
           {sidebarLinks.map(({ icon: Icon, text, link }) => (
             <li key={text}>

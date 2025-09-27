@@ -4,14 +4,18 @@ import { DashboardPage } from "./page/dashboard/DashboardPage";
 import {
   addNew,
   dashboard,
+  giveRating,
   login,
   management,
   resetPassword,
+  seeRatings,
   signup,
 } from "./constants/path";
 import ResetPassword from "./page/dashboard/ResetPassword";
 import Create from "./page/dashboard/add new/Create";
 import Management from "./page/dashboard/management/Management";
+import GiveRating from "./page/dashboard/give rating/GiveRating";
+import SeeRatings from "./page/dashboard/see ratings/SeeRatings";
 
 export default function App() {
   return (
@@ -23,9 +27,10 @@ export default function App() {
 
         <Route path={dashboard} element={<DashboardPage />}>
           <Route path={resetPassword} element={<ResetPassword />} />
-          {/* <Route path="give-rating" element={<GiveRating />} /> */}
+          <Route path={giveRating} element={<GiveRating />} />
           <Route path={addNew} element={<Create />} />
           <Route path={management} element={<Management />} />
+          <Route path={seeRatings} element={<SeeRatings />} />
           {/* Default nested route */}
           {/* <Route index element={<div>Welcome to Dashboard</div>} /> */}
         </Route>

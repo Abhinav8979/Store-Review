@@ -13,6 +13,7 @@ import {
 import AddUserForm from "../../../components/administratorComp/AddUserForm";
 import AddAdminForm from "../../../components/administratorComp/AddAdminForm";
 import AddStoreForm from "../../../components/administratorComp/AddStoreForm";
+import Button from "../../../ui/Button";
 
 const Create = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -49,30 +50,27 @@ const Create = () => {
   return (
     <div className="p-6 space-y-6 min-h-screen bg-[var(--background)] flex flex-col items-center justify-center">
       <div className="flex space-x-4 mb-6">
-        <button
-          className={`px-4 py-2 rounded ${
-            tab === "user" ? "bg-[var(--primary)] text-white" : "bg-gray-200"
-          }`}
+        <Button
+          disabled={tab === "user"}
+          variant={tab === "user" ? "ghost" : "primary"}
           onClick={() => setSearchParams({ add: "user" })}
         >
           Add User
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${
-            tab === "admin" ? "bg-[var(--primary)] text-white" : "bg-gray-200"
-          }`}
+        </Button>
+        <Button
+          disabled={tab === "admin"}
+          variant={tab === "admin" ? "ghost" : "primary"}
           onClick={() => setSearchParams({ add: "admin" })}
         >
           Add Admin
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${
-            tab === "store" ? "bg-[var(--primary)] text-white" : "bg-gray-200"
-          }`}
+        </Button>
+        <Button
+          disabled={tab === "store"}
+          variant={tab === "store" ? "ghost" : "primary"}
           onClick={() => setSearchParams({ add: "store" })}
         >
           Add Store
-        </button>
+        </Button>
       </div>
 
       <FormProvider {...methods}>
@@ -90,12 +88,12 @@ const Create = () => {
             <AddStoreForm register={methods.register} errors={errors} />
           )}
 
-          <button
+          <Button
             type="submit"
             className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-full"
           >
             Submit
-          </button>
+          </Button>
         </form>
       </FormProvider>
     </div>

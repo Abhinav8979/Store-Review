@@ -1,6 +1,8 @@
 import type { FieldErrors } from "react-hook-form";
 import { adminRoles } from "../../constants/role";
 import type { AdminFormValues } from "../../zod schema/createSchema";
+import SelectBox from "../../ui/SelectBox";
+import Input from "../../ui/Input";
 
 type Props = {
   register: any;
@@ -10,7 +12,7 @@ type Props = {
 const AddAdminForm = ({ register, errors }: Props) => {
   return (
     <div className="space-y-4">
-      <input
+      <Input
         type="text"
         placeholder="Name"
         {...register("name")}
@@ -20,7 +22,7 @@ const AddAdminForm = ({ register, errors }: Props) => {
         <p className="text-red-500">{errors.name.message as string}</p>
       )}
 
-      <input
+      <Input
         type="email"
         placeholder="Email"
         {...register("email")}
@@ -30,7 +32,7 @@ const AddAdminForm = ({ register, errors }: Props) => {
         <p className="text-red-500">{errors.email.message as string}</p>
       )}
 
-      <input
+      <Input
         type="password"
         placeholder="Password"
         {...register("password")}
@@ -40,7 +42,7 @@ const AddAdminForm = ({ register, errors }: Props) => {
         <p className="text-red-500">{errors.password.message as string}</p>
       )}
 
-      <input
+      <Input
         type="text"
         placeholder="Address"
         {...register("address")}
@@ -50,19 +52,13 @@ const AddAdminForm = ({ register, errors }: Props) => {
         <p className="text-red-500">{errors.address.message as string}</p>
       )}
 
-      <select
-        {...register("role", { required: "Role is required" })}
-        className="w-full border px-3 py-2 rounded"
-      >
-        {adminRoles.map((role) => (
-          <option key={role} value={role}>
-            {role}
-          </option>
-        ))}
-      </select>
-      {errors.role && (
-        <p className="text-red-500">{errors.role.message as string}</p>
-      )}
+      <SelectBox
+        name="role"
+        register={register}
+        options={adminRoles.map((role) => ({ label: role, value: role }))}
+        placeholder="Select a role"
+        error={errors.role?.message as string}
+      />
     </div>
   );
 };
