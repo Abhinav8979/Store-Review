@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { adminRoles } from "../constants/role";
+import { roles } from "../constants/role";
 
 const nameSchema = z
   .string()
@@ -34,7 +34,7 @@ export const adminSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
   address: addressSchema,
-  role: z.enum(adminRoles),
+  role: z.enum(roles),
 });
 
 export const storeSchema = z.object({

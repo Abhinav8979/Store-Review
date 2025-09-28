@@ -44,7 +44,7 @@ model Store {
 
 model Rating {
   id      String  @id @default(cuid())
-  score   Int // Example: 1–5
+  rating   Int 
   comment String?
 
   // Relations

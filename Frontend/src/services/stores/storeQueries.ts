@@ -1,8 +1,12 @@
-// services/stores/storeQueries.ts
 import { useQuery } from "@tanstack/react-query";
-import { fetchStores } from "./storeApi";
+import { getOwnerStore, getStore } from "./storeApi";
 
-export const useStores = useQuery({
+export const useGetStores = useQuery({
   queryKey: ["stores"],
-  queryFn: fetchStores,
+  queryFn: getStore,
+});
+
+export const useGetOwnerStore = useQuery({
+  queryKey: ["ownerstore"],
+  queryFn: getOwnerStore,
 });

@@ -4,7 +4,7 @@ import type {
   ButtonProps,
   ButtonSize,
   ButtonVariant,
-} from "../types/ui/button.types";
+} from "../types/ui type/button.types";
 
 const Button: React.FC<ButtonProps> = ({
   children,

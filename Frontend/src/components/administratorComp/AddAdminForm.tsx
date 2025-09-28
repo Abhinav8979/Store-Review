@@ -1,5 +1,5 @@
 import type { FieldErrors } from "react-hook-form";
-import { adminRoles } from "../../constants/role";
+import { roles } from "../../constants/role";
 import type { AdminFormValues } from "../../zod schema/createSchema";
 import SelectBox from "../../ui/SelectBox";
 import Input from "../../ui/Input";
@@ -55,7 +55,7 @@ const AddAdminForm = ({ register, errors }: Props) => {
       <SelectBox
         name="role"
         register={register}
-        options={adminRoles.map((role) => ({ label: role, value: role }))}
+        options={roles.map((role) => ({ label: role, value: role }))}
         placeholder="Select a role"
         error={errors.role?.message as string}
       />
