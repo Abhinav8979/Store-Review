@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER', 'STORE_OWNER');
+CREATE TYPE "Role" AS ENUM ('SYSTEM_ADMINISTRATOR', 'USER', 'STORE_OWNER');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -19,7 +19,6 @@ CREATE TABLE "User" (
 CREATE TABLE "Store" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL DEFAULT 0,
     "ownerId" TEXT NOT NULL,
@@ -32,7 +31,7 @@ CREATE TABLE "Store" (
 -- CreateTable
 CREATE TABLE "Rating" (
     "id" TEXT NOT NULL,
-    "score" INTEGER NOT NULL,
+    "rating" INTEGER NOT NULL,
     "comment" TEXT,
     "userId" TEXT NOT NULL,
     "storeId" TEXT NOT NULL,
@@ -45,7 +44,7 @@ CREATE TABLE "Rating" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Store_email_key" ON "Store"("email");
+CREATE UNIQUE INDEX "Store_address_key" ON "Store"("address");
 
 -- AddForeignKey
 ALTER TABLE "Store" ADD CONSTRAINT "Store_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

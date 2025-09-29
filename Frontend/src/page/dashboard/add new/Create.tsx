@@ -10,10 +10,14 @@ import {
   type StoreFormValues,
   type UserFormValues,
 } from "../../../zod schema/createSchema";
-import AddUserForm from "../../../components/administratorComp/AddUserForm";
 import AddAdminForm from "../../../components/administratorComp/AddAdminForm";
 import AddStoreForm from "../../../components/administratorComp/AddStoreForm";
 import Button from "../../../ui/Button";
+import {
+  useAddAdmin,
+  useAddStore,
+} from "../../../services/admins/adminMutations";
+import { toast } from "react-toastify";
 
 const Create = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -38,14 +42,39 @@ const Create = () => {
     formState: { errors },
   } = methods;
 
+  const { mutate: createUser, isPending } = useAddAdmin();
+  const { mutate: createStore, isPending: isStorePending } = useAddStore();
+
+  const onSubmit = (data: FormValues) => {
+    if (tab === "user") {
+      createUser(
+        { tab, ...data },
+        {
+          onSuccess: () => {
+            reset();
+            toast.success("Created successfully");
+          },
+        }
+      );
+    } else {
+      createStore(
+        { tab, ...data },
+        {
+          onSuccess: () => {
+            reset();
+            toast.success("Created successfully");
+          },
+          onError: (err) => {
+            toast.error(err.message || "Failed to create store");
+          },
+        }
+      );
+    }
+  };
+
   useEffect(() => {
     reset();
   }, [tab, reset]);
-
-  const onSubmit = (data: FormValues) => {
-    console.log("Submitted Data:", { tab, ...data });
-    alert(`Submitted ${tab} form! Check console for data.`);
-  };
 
   return (
     <div className="p-6 space-y-6 min-h-screen bg-[var(--background)] flex flex-col items-center justify-center">
@@ -56,13 +85,6 @@ const Create = () => {
           onClick={() => setSearchParams({ add: "user" })}
         >
           Add User
-        </Button>
-        <Button
-          disabled={tab === "admin"}
-          variant={tab === "admin" ? "ghost" : "primary"}
-          onClick={() => setSearchParams({ add: "admin" })}
-        >
-          Add Admin
         </Button>
         <Button
           disabled={tab === "store"}
@@ -79,9 +101,6 @@ const Create = () => {
           className="bg-[var(--card)] p-6 border rounded w-full max-w-lg space-y-4"
         >
           {tab === "user" && (
-            <AddUserForm register={methods.register} errors={errors} />
-          )}
-          {tab === "admin" && (
             <AddAdminForm register={methods.register} errors={errors} />
           )}
           {tab === "store" && (
@@ -90,9 +109,14 @@ const Create = () => {
 
           <Button
             type="submit"
-            className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-full"
+            disabled={isPending || isStorePending}
+            className={`mt-4 px-4 py-2 rounded w-full ${
+              isPending || isStorePending
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700 text-white"
+            }`}
           >
-            Submit
+            {isPending || isStorePending ? "Submitting..." : "Submit"}
           </Button>
         </form>
       </FormProvider>

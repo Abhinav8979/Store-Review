@@ -4,6 +4,9 @@ import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import { login } from "../../constants/path";
 import { useNavigate } from "react-router-dom";
+import { useSignUp } from "../../services/auth/authMutation";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup: React.FC = () => {
   const {
@@ -15,8 +18,18 @@ const Signup: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const { mutate: signUp, isPending } = useSignUp();
+
   const onSubmit = (data: any) => {
-    console.log("Signup Data:", data);
+    signUp(data, {
+      onSuccess: () => {
+        toast.success("Signup successful!");
+        handleLoginClick();
+      },
+      onError: (error: any) => {
+        toast.error(error?.message || "Signup failed. Please try again.");
+      },
+    });
   };
 
   const handleLoginClick = () => {
@@ -31,7 +44,7 @@ const Signup: React.FC = () => {
           Create Account
         </h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
             label="Name"
             type="text"
@@ -62,8 +75,9 @@ const Signup: React.FC = () => {
             variant="primary"
             fullWidth
             className="hover:opacity-90 transition"
+            disabled={isPending}
           >
-            Signup
+            {isPending ? "Signing up..." : "Signup"}
           </Button>
         </form>
 

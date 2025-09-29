@@ -6,6 +6,11 @@ const nameSchema = z
   .min(20, "Name must be at least 20 characters")
   .max(60, "Name cannot exceed 60 characters");
 
+const storeNameSchema = z
+  .string()
+  .min(3, "Store Name must be at least 3 characters")
+  .max(100, "Store Name cannot exceed 100 characters");
+
 const addressSchema = z
   .string()
   .max(400, "Address cannot exceed 400 characters");
@@ -38,7 +43,7 @@ export const adminSchema = z.object({
 });
 
 export const storeSchema = z.object({
-  storeName: nameSchema,
+  storeName: storeNameSchema,
   storeAddress: addressSchema,
   ownerName: nameSchema,
   ownerEmail: emailSchema,

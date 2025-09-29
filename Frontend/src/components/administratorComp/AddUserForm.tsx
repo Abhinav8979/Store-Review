@@ -45,6 +45,14 @@ const AddUserForm = ({ register, errors }: Props) => {
       {errors.address && (
         <p className="text-red-500">{errors.address.message}</p>
       )}
+
+      <Input
+        type="text"
+        placeholder="Role"
+        {...register("address")}
+        className="w-full border px-3 py-2 rounded"
+      />
+      {errors.address && <p className="text-red-500">{errors.role.message}</p>}
     </div>
   );
 };

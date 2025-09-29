@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import { FaStar } from "react-icons/fa";
 
 export const StarRating = ({
@@ -20,3 +21,21 @@ export const StarRating = ({
     ))}
   </div>
 );
+
+export const getRole = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decoded: any = jwtDecode(token);
+    return decoded.role;
+  }
+  return null;
+};
+
+export const getUserId = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decoded: any = jwtDecode(token);
+    return decoded.userId;
+  }
+  return null;
+};

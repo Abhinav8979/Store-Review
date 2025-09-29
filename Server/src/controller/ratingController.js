@@ -1,8 +1,8 @@
-import prisma from "../prisma.js";
+import prisma from "../prismaClient.js";
 
 export const ratingController = async (req, res) => {
   try {
-    const { userId, storeId, rating, comment } = req.body;
+    const { userId, storeId, rating } = req.body;
 
     if (!userId || !storeId || !rating) {
       return res
@@ -25,14 +25,13 @@ export const ratingController = async (req, res) => {
       // 🔹 Update rating
       savedRating = await prisma.rating.update({
         where: { id: existingRating.id },
-        data: { rating, comment },
+        data: { rating },
       });
     } else {
       // 🔹 Create new rating
       savedRating = await prisma.rating.create({
         data: {
           rating,
-          comment,
           user: { connect: { id: userId } },
           store: { connect: { id: storeId } },
         },

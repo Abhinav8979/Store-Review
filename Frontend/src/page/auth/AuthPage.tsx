@@ -5,27 +5,36 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Login from "../../components/authComp/Login";
 import Signup from "../../components/authComp/SignUp";
 import { login } from "../../constants/path";
-import { authSchema, type AuthFormData } from "../../zod schema/authSchema";
+import {
+  loginSchema,
+  signupSchema,
+  type LoginFormData,
+  type SignupFormData,
+} from "../../zod schema/authSchema";
 
 const Auth: React.FC = () => {
   const location = useLocation();
   const pathname = location.pathname;
 
-  const methods = useForm<AuthFormData>({
-    resolver: zodResolver(authSchema),
-    mode: "onSubmit",
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      address: "",
-    },
-  });
+  const isLogin = pathname === login;
 
+  const methods = useForm<LoginFormData | SignupFormData>({
+    resolver: zodResolver(isLogin ? loginSchema : signupSchema),
+    mode: "onSubmit",
+    defaultValues: isLogin
+      ? {
+          email: "",
+          password: "",
+        }
+      : {
+          name: "",
+          email: "",
+          password: "",
+          address: "",
+        },
+  });
   return (
-    <FormProvider {...methods}>
-      {pathname === login ? <Login /> : <Signup />}
-    </FormProvider>
+    <FormProvider {...methods}>{isLogin ? <Login /> : <Signup />}</FormProvider>
   );
 };
 

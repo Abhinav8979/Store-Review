@@ -13,6 +13,7 @@ const AddAdminForm = ({ register, errors }: Props) => {
   return (
     <div className="space-y-4">
       <Input
+        label="User Name"
         type="text"
         placeholder="Name"
         {...register("name")}
@@ -23,6 +24,7 @@ const AddAdminForm = ({ register, errors }: Props) => {
       )}
 
       <Input
+        label="User Email"
         type="email"
         placeholder="Email"
         {...register("email")}
@@ -33,6 +35,7 @@ const AddAdminForm = ({ register, errors }: Props) => {
       )}
 
       <Input
+        label="User Password"
         type="password"
         placeholder="Password"
         {...register("password")}
@@ -43,6 +46,7 @@ const AddAdminForm = ({ register, errors }: Props) => {
       )}
 
       <Input
+        label="User Address"
         type="text"
         placeholder="Address"
         {...register("address")}
@@ -51,6 +55,8 @@ const AddAdminForm = ({ register, errors }: Props) => {
       {errors.address && (
         <p className="text-red-500">{errors.address.message as string}</p>
       )}
+
+      <label>User Role</label>
 
       <SelectBox
         name="role"

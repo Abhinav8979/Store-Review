@@ -1,11 +1,11 @@
 import { api } from "../../utils/api";
 
-export const getStore = async () => {
-  const response = await api.get("/api/stores/public");
-  return response.data;
+export const getAllStore = async () => {
+  const response = await api.get("/stores/public");
+  return response.data.stores;
 };
 
 export const getOwnerStore = async (data: any) => {
-  const response = await api.post("/api/stores/store-owner", data);
+  const response = await api.post("/stores/store-owner", data);
   return response.data;
 };

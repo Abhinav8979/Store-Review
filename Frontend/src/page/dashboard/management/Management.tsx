@@ -2,6 +2,9 @@ import React, { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import Table, { type Column } from "../../../ui/Table";
 import SearchBox from "../../../ui/SearchBox";
+import { pageSize } from "../../../constants/common";
+import { useAllUsers } from "../../../services/users/userQuries";
+import { useGetAllStores } from "../../../services/stores/storeQueries";
 
 type User = {
   name: string;
@@ -14,39 +17,8 @@ type Store = {
   name: string;
   email: string;
   address: string;
-  rating: number;
+  overallRating: number;
 };
-
-// Dummy data
-const users: User[] = [
-  {
-    name: "John Doe",
-    email: "john@example.com",
-    address: "123 Main St",
-    role: "User",
-  },
-  {
-    name: "Jane Admin",
-    email: "jane@example.com",
-    address: "456 Park Ave",
-    role: "Admin",
-  },
-];
-
-const stores: Store[] = [
-  {
-    name: "SuperMart",
-    email: "contact@supermart.com",
-    address: "789 Market Rd",
-    rating: 4.5,
-  },
-  {
-    name: "MegaStore",
-    email: "info@megastore.com",
-    address: "321 High St",
-    rating: 4.2,
-  },
-];
 
 const Management: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -54,16 +26,21 @@ const Management: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
-  const pageSize = 5;
 
-  // Handle tab click
+  const { data: users = [], isPending, isError } = useAllUsers();
+
+  const {
+    data: stores = [],
+    isPending: isGetAllStorePending,
+    isError: isGetAllStoreError,
+  } = useGetAllStores();
+
   const handleTabChange = (tab: string) => {
     setSearchParams({ view: tab });
-    setPage(1); // reset page when switching tab
-    setSearchQuery(""); // reset search
+    setPage(1);
+    setSearchQuery("");
   };
 
-  // Columns
   const userColumns: Column<User>[] = [
     { header: "Name", accessor: "name", sortable: true },
     { header: "Email", accessor: "email", sortable: true },
@@ -73,14 +50,12 @@ const Management: React.FC = () => {
 
   const storeColumns: Column<Store>[] = [
     { header: "Name", accessor: "name", sortable: true },
-    { header: "Email", accessor: "email", sortable: true },
     { header: "Address", accessor: "address", sortable: true },
-    { header: "Rating", accessor: "rating" },
+    { header: "Overall Rating", accessor: "overallRating" },
   ];
 
-  // Filtered data
   const filteredUsers = useMemo(() => {
-    return users.filter((u) => {
+    return users.filter((u: any) => {
       const searchLower = searchQuery.toLowerCase();
       return (
         u.name.toLowerCase().includes(searchLower) ||
@@ -89,20 +64,18 @@ const Management: React.FC = () => {
         u.role.toLowerCase().includes(searchLower)
       );
     });
-  }, [searchQuery]);
+  }, [searchQuery, users]);
 
   const filteredStores = useMemo(() => {
-    return stores.filter((s) => {
+    return stores.filter((s: any) => {
       const searchLower = searchQuery.toLowerCase();
       return (
         s.name.toLowerCase().includes(searchLower) ||
-        s.email.toLowerCase().includes(searchLower) ||
         s.address.toLowerCase().includes(searchLower)
       );
     });
-  }, [searchQuery]);
+  }, [searchQuery, stores]);
 
-  // Paginated Data
   const getPaginatedData = <T,>(data: T[]) => {
     const start = (page - 1) * pageSize;
     return data.slice(start, start + pageSize);
@@ -112,7 +85,7 @@ const Management: React.FC = () => {
     <div className="p-6 bg-[var(--background)] min-h-screen">
       {/* Tabs */}
       <div className="flex space-x-4 mb-6">
-        {["user", "admin", "store"].map((t) => (
+        {["user", "store"].map((t) => (
           <button
             key={t}
             onClick={() => handleTabChange(t)}
@@ -127,7 +100,6 @@ const Management: React.FC = () => {
         ))}
       </div>
 
-      {/* Search Box */}
       <div className="mb-4">
         <SearchBox
           value={searchQuery}
@@ -136,9 +108,15 @@ const Management: React.FC = () => {
         />
       </div>
 
-      {/* Table */}
-      <div>
-        {tab === "user" && (
+      {/* Users */}
+      {tab === "user" &&
+        (isPending ? (
+          <p className="text-center text-[var(--text-secondary)]">Loading...</p>
+        ) : isError ? (
+          <p className="text-center text-red-500">
+            Failed to load users. Please try again.
+          </p>
+        ) : (
           <Table
             columns={userColumns}
             data={getPaginatedData(
@@ -149,20 +127,17 @@ const Management: React.FC = () => {
             total={filteredUsers.filter((u) => u.role !== "Admin").length}
             onPageChange={setPage}
           />
-        )}
-        {tab === "admin" && (
-          <Table
-            columns={userColumns}
-            data={getPaginatedData(
-              filteredUsers.filter((u) => u.role === "Admin")
-            )}
-            page={page}
-            pageSize={pageSize}
-            total={filteredUsers.filter((u) => u.role === "Admin").length}
-            onPageChange={setPage}
-          />
-        )}
-        {tab === "store" && (
+        ))}
+
+      {/* Stores */}
+      {tab === "store" &&
+        (isGetAllStorePending ? (
+          <p className="text-center text-[var(--text-secondary)]">Loading...</p>
+        ) : isGetAllStoreError ? (
+          <p className="text-center text-red-500">
+            Failed to load stores. Please try again.
+          </p>
+        ) : (
           <Table
             columns={storeColumns}
             data={getPaginatedData(filteredStores)}
@@ -171,8 +146,7 @@ const Management: React.FC = () => {
             total={filteredStores.length}
             onPageChange={setPage}
           />
-        )}
-      </div>
+        ))}
     </div>
   );
 };

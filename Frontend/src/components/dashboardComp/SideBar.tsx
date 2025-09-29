@@ -1,10 +1,10 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineLogout } from "react-icons/ai";
-import { jwtDecode } from "jwt-decode";
 
 import { sidebarLinks } from "../../constants/dashboardLinks";
 import Button from "../../ui/Button";
 import { login } from "../../constants/path";
+import { getRole } from "../../utils/functions";
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -15,8 +15,7 @@ const SideBar = () => {
 
   if (token) {
     try {
-      const decoded: any = jwtDecode(token);
-      userRole = decoded.role;
+      userRole = getRole();
     } catch (err) {
       console.error("Invalid token:", err);
       userRole = null;

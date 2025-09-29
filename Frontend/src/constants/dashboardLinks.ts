@@ -18,30 +18,31 @@ export const sidebarLinks = [
     icon: AiOutlineUserAdd,
     text: "Add New",
     link: addNew,
-    accessTo: ["System Administrator"],
+    accessTo: ["SYSTEM_ADMINISTRATOR"],
   },
-  {
-    icon: AiOutlineLock,
-    text: "Change Password",
-    link: resetPassword,
-    accessTo: ["Normal User", "System Administrator", "Store Owner"],
-  },
+
   {
     icon: AiOutlineUsergroupAdd,
     text: "Management",
     link: management,
-    accessTo: ["System Administrator", "Store Owner"],
+    accessTo: ["SYSTEM_ADMINISTRATOR", "STORE_OWNER"],
   },
   {
     icon: AiOutlineStar,
     text: "Give Rating",
     link: giveRating,
-    accessTo: ["Normal User"],
+    accessTo: ["USER"],
   },
   {
     icon: AiOutlineStar,
     text: "See Ratings",
     link: seeRatings,
-    accessTo: ["Store Owner"],
+    accessTo: ["STORE_OWNER"],
+  },
+  {
+    icon: AiOutlineLock,
+    text: "Change Password",
+    link: resetPassword,
+    accessTo: ["USER", "SYSTEM_ADMINISTRATOR", "STORE_OWNER"],
   },
 ];

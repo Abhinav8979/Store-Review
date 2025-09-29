@@ -1,6 +1,6 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import prisma from "../prisma.js";
+import prisma from "../prismaClient.js";
 import dotenv from "dotenv";
 
 dotenv.config();

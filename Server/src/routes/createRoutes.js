@@ -3,22 +3,22 @@ import express from "express";
 import {
   createNewStoreController,
   createNewUserController,
-} from "../controller/createController";
-import { authenticateToken, authorizeRole } from "../middleware/auth";
+} from "../controller/createController.js";
+import { authenticateToken, authorizeRole } from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.post(
   "/create-user",
-  authorizeRole(["system administrator"]),
   authenticateToken,
+  authorizeRole(["SYSTEM_ADMINISTRATOR"]),
   createNewUserController
 );
 
 router.post(
   "/create-store",
-  authorizeRole(["system administrator"]),
   authenticateToken,
+  authorizeRole(["SYSTEM_ADMINISTRATOR"]),
   createNewStoreController
 );
 

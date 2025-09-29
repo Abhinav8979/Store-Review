@@ -13,3 +13,19 @@ export const getUserController = async (req, res) => {
   });
   res.json(users);
 };
+export const getAllUserController = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        email: true,
+        name: true,
+        role: true,
+        address: true,
+      },
+    });
+
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

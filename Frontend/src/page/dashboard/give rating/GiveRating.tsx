@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { Column } from "../../../ui/Table";
 import Table from "../../../ui/Table";
 import SearchBox from "../../../ui/SearchBox";
 import { pageSize } from "../../../constants/common";
-import { StarRating } from "../../../utils/functions";
+import { getUserId, StarRating } from "../../../utils/functions";
+import { useGetAllStores } from "../../../services/stores/storeQueries";
+import { useRateStore } from "../../../services/ratings/ratingMutations";
 
 interface Store {
   id: number;
@@ -13,36 +15,51 @@ interface Store {
   userRating?: number;
 }
 
-const initialStores: Store[] = [
-  {
-    id: 1,
-    name: "Tech Mart",
-    address: "123 Street",
-    overallRating: 4.2,
-    userRating: 4,
-  },
-  { id: 2, name: "Grocery Hub", address: "456 Avenue", overallRating: 3.8 },
-  { id: 3, name: "Book World", address: "789 Road", overallRating: 5 },
-  { id: 4, name: "Laptop Zone", address: "111 Square", overallRating: 4.5 },
-  { id: 5, name: "Food Plaza", address: "222 Street", overallRating: 3.9 },
-];
-
 const GiveRating = () => {
-  const [stores, setStores] = useState<Store[]>(initialStores);
+  const {
+    data: initialStores = [],
+    isPending: isStoresPending,
+    isError: isStoresError,
+  } = useGetAllStores();
+
+  const [stores, setStores] = useState<Store[]>([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  const handleRatingChange = (id: number, rating: number) => {
+  const { mutate: rateStore, isPending: isRatingPending } = useRateStore();
+
+  const userId = getUserId();
+
+  useEffect(() => {
+    if (initialStores.length > 0) {
+      setStores(initialStores);
+    }
+  }, [initialStores]);
+
+  const handleRatingChange = (storeId: number, rating: number) => {
     setStores((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, userRating: rating } : s))
+      prev.map((s) => (s.id === storeId ? { ...s, userRating: rating } : s))
     );
+
+    rateStore({
+      userId,
+      storeId,
+      rating,
+    });
   };
 
-  const filteredStores = stores.filter(
-    (s) =>
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.address.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredStores = useMemo(() => {
+    return stores.filter(
+      (s) =>
+        s.name.toLowerCase().includes(search.toLowerCase()) ||
+        s.address.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [search, stores]);
+
+  const getPaginatedData = <T,>(data: T[]) => {
+    const start = (page - 1) * pageSize;
+    return data.slice(start, start + pageSize);
+  };
 
   const columns: Column<Store>[] = [
     { header: "Store Name", accessor: "name", sortable: true },
@@ -64,11 +81,22 @@ const GiveRating = () => {
     },
   ];
 
+  if (isStoresPending) {
+    return (
+      <p className="text-center text-[var(--text-secondary)]">
+        Loading stores...
+      </p>
+    );
+  }
+
+  if (isStoresError) {
+    return <p className="text-center text-red-500">Failed to load stores.</p>;
+  }
+
   return (
     <div className="p-4 space-y-4">
       <h2 className="text-xl font-bold">Rate Stores</h2>
 
-      {/* Search + Select */}
       <div className="flex space-x-3">
         <SearchBox
           value={search}
@@ -77,13 +105,18 @@ const GiveRating = () => {
         />
       </div>
 
-      {/* Table */}
+      {isRatingPending && (
+        <p className="text-center text-[var(--text-secondary)]">
+          Submitting your rating...
+        </p>
+      )}
+
       <Table
         columns={columns}
-        data={filteredStores}
+        data={getPaginatedData(filteredStores)}
         page={page}
         pageSize={pageSize}
-        total={stores.length}
+        total={filteredStores.length}
         onPageChange={setPage}
       />
     </div>

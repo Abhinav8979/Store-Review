@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../prismaClient.js";
 
 export const getAllStoreController = async (req, res) => {
   try {
@@ -24,6 +22,7 @@ export const getAllStoreController = async (req, res) => {
         id: store.id,
         name: store.name,
         owner: store.owner,
+        address: store.address,
         overallRating: avgRating,
         totalRatings,
       };

@@ -4,6 +4,6 @@ import { authenticateToken, authorizeRole } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/", authorizeRole(["user"]), authenticateToken, ratingController);
+router.post("/", authenticateToken, authorizeRole(["USER"]), ratingController);
 
 export default router;

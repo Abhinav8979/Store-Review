@@ -3,20 +3,35 @@ import { useFormContext } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
-import { signup } from "../../constants/path";
+import { dashboard, signup } from "../../constants/path";
+import { useLogin } from "../../services/auth/authMutation";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset, // <-- get reset from RHF
+    reset,
   } = useFormContext();
 
   const navigate = useNavigate();
 
+  const { mutate: loginUser, isPending } = useLogin();
+
   const onSubmit = (data: any) => {
-    console.log("Login Data:", data);
+    loginUser(data, {
+      onSuccess: (res: any) => {
+        toast.success("Login successful!");
+        localStorage.setItem("token", res.token);
+        reset();
+        navigate(dashboard);
+      },
+      onError: (error: any) => {
+        toast.error(error?.message || "Login failed. Please try again.");
+      },
+    });
   };
 
   const handleSignupClick = () => {
@@ -32,7 +47,6 @@ const Login: React.FC = () => {
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Email Input */}
           <Input
             label="Email"
             type="email"
@@ -40,7 +54,6 @@ const Login: React.FC = () => {
             error={errors.email?.message}
           />
 
-          {/* Password Input */}
           <Input
             label="Password"
             type="password"
@@ -48,14 +61,14 @@ const Login: React.FC = () => {
             error={errors.password?.message}
           />
 
-          {/* Submit Button */}
           <Button
             type="submit"
             variant="primary"
             fullWidth
             className="hover:opacity-90 transition"
+            disabled={isPending}
           >
-            Login
+            {isPending ? "Logging in..." : "Login"}
           </Button>
         </form>
 

@@ -1,10 +1,14 @@
-// services/admins/adminMutations.ts
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createAdmin } from "./adminApi";
+import { useMutation } from "@tanstack/react-query";
+import { createStore, createUsers } from "./adminApi";
 
-const queryClient = useQueryClient();
+export const useAddAdmin = () => {
+  return useMutation({
+    mutationFn: createUsers,
+  });
+};
 
-export const useAddAdmin = useMutation({
-  mutationFn: createAdmin,
-  onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admins"] }),
-});
+export const useAddStore = () => {
+  return useMutation({
+    mutationFn: createStore,
+  });
+};

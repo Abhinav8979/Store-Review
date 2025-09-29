@@ -1,7 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "./userApi";
+import { getAllUsers, getUsers } from "./userApi";
 
-export const useUsers = useQuery({
-  queryKey: ["users"],
-  queryFn: fetchUsers,
-});
+export const useUsers = () => {
+  return useQuery({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
+};
+
+export const useAllUsers = () => {
+  return useQuery({
+    queryKey: ["all-users"],
+    queryFn: getAllUsers,
+  });
+};

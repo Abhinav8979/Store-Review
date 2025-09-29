@@ -11,6 +11,7 @@ const AddStoreForm = ({ register, errors }: Props) => {
   return (
     <div className="space-y-4">
       <Input
+        label="Store Name"
         type="text"
         placeholder="Store Name"
         {...register("storeName")}
@@ -21,6 +22,7 @@ const AddStoreForm = ({ register, errors }: Props) => {
       )}
 
       <Input
+        label="Store Address"
         type="text"
         placeholder="Store Address"
         {...register("storeAddress")}
@@ -31,16 +33,7 @@ const AddStoreForm = ({ register, errors }: Props) => {
       )}
 
       <Input
-        type="text"
-        placeholder="Owner Name"
-        {...register("ownerName")}
-        className="w-full border px-3 py-2 rounded"
-      />
-      {errors.ownerName && (
-        <p className="text-red-500">{errors.ownerName.message as string}</p>
-      )}
-
-      <Input
+        label="Owner Email"
         type="email"
         placeholder="Owner Email"
         {...register("ownerEmail")}
