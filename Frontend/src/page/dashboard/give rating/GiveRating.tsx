@@ -74,6 +74,7 @@ const GiveRating = () => {
       accessor: "userRating",
       render: (value, row) => (
         <StarRating
+          editable={true}
           rating={value || 0}
           onChange={(val) => handleRatingChange(row.id, val)}
         />
@@ -112,6 +113,7 @@ const GiveRating = () => {
       )}
 
       <Table
+        heading="Stores"
         columns={columns}
         data={getPaginatedData(filteredStores)}
         page={page}

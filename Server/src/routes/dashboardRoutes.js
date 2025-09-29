@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get(
   "/stats",
-  authorizeRole(["system administrator"]),
   authenticateToken,
+  authorizeRole(["SYSTEM_ADMINISTRATOR"]),
   getStatsController
 );
 

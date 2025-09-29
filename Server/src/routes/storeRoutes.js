@@ -10,7 +10,7 @@ const router = express.Router();
 router.get(
   "/public",
   authenticateToken,
-  authorizeRole(["USER", "SYSTEM_ADMINISTRATOR"]),
+  authorizeRole(["USER", "STORE_OWNER"]),
   getAllStoreController
 );
 

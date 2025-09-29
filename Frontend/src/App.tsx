@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Auth from "./page/auth/AuthPage";
 import { DashboardPage } from "./page/dashboard/DashboardPage";
 import {
@@ -21,7 +26,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Auth routes */}
+        <Route path="/" element={<Navigate to={login} replace />} />
         <Route path={login} element={<Auth />} />
         <Route path={signup} element={<Auth />} />
 
@@ -31,8 +36,6 @@ export default function App() {
           <Route path={addNew} element={<Create />} />
           <Route path={management} element={<Management />} />
           <Route path={seeRatings} element={<SeeRatings />} />
-          {/* Default nested route */}
-          {/* <Route index element={<div>Welcome to Dashboard</div>} /> */}
         </Route>
       </Routes>
     </Router>

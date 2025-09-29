@@ -35,6 +35,9 @@ const Management: React.FC = () => {
     isError: isGetAllStoreError,
   } = useGetAllStores();
 
+  const typedStores = stores as Store[];
+  const typedUsers = users as User[];
+
   const handleTabChange = (tab: string) => {
     setSearchParams({ view: tab });
     setPage(1);
@@ -55,7 +58,7 @@ const Management: React.FC = () => {
   ];
 
   const filteredUsers = useMemo(() => {
-    return users.filter((u: any) => {
+    return typedUsers.filter((u: any) => {
       const searchLower = searchQuery.toLowerCase();
       return (
         u.name.toLowerCase().includes(searchLower) ||
@@ -67,7 +70,7 @@ const Management: React.FC = () => {
   }, [searchQuery, users]);
 
   const filteredStores = useMemo(() => {
-    return stores.filter((s: any) => {
+    return typedStores.filter((s: any) => {
       const searchLower = searchQuery.toLowerCase();
       return (
         s.name.toLowerCase().includes(searchLower) ||
@@ -83,7 +86,6 @@ const Management: React.FC = () => {
 
   return (
     <div className="p-6 bg-[var(--background)] min-h-screen">
-      {/* Tabs */}
       <div className="flex space-x-4 mb-6">
         {["user", "store"].map((t) => (
           <button
@@ -108,7 +110,6 @@ const Management: React.FC = () => {
         />
       </div>
 
-      {/* Users */}
       {tab === "user" &&
         (isPending ? (
           <p className="text-center text-[var(--text-secondary)]">Loading...</p>
@@ -118,18 +119,18 @@ const Management: React.FC = () => {
           </p>
         ) : (
           <Table
+            heading="User Table"
             columns={userColumns}
             data={getPaginatedData(
-              filteredUsers.filter((u) => u.role !== "Admin")
+              filteredUsers.filter((u: any) => u.role !== "Admin")
             )}
             page={page}
             pageSize={pageSize}
-            total={filteredUsers.filter((u) => u.role !== "Admin").length}
+            total={filteredUsers.filter((u: any) => u.role !== "Admin").length}
             onPageChange={setPage}
           />
         ))}
 
-      {/* Stores */}
       {tab === "store" &&
         (isGetAllStorePending ? (
           <p className="text-center text-[var(--text-secondary)]">Loading...</p>
@@ -139,6 +140,7 @@ const Management: React.FC = () => {
           </p>
         ) : (
           <Table
+            heading="Store Table"
             columns={storeColumns}
             data={getPaginatedData(filteredStores)}
             page={page}

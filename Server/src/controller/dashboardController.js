@@ -1,8 +1,12 @@
 import prisma from "../prismaClient.js";
-
 export const getStatsController = async (req, res) => {
   try {
-    const totalUsers = await prisma.user.count();
+    const totalUsers = await prisma.user.count({
+      where: {
+        role: { not: "SYSTEM_ADMINISTRATOR" },
+      },
+    });
+
     const totalStores = await prisma.store.count();
     const totalRatings = await prisma.rating.count();
 

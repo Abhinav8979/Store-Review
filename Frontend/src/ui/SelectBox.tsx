@@ -1,4 +1,3 @@
-// ui/SelectBox.tsx
 import React from "react";
 
 type Option = {
@@ -12,8 +11,8 @@ type Props = {
   onChange?: (value: string) => void;
   placeholder?: string;
   error?: string;
-  register?: any; // from react-hook-form
-  name?: string; // react-hook-form field name
+  register?: any;
+  name?: string;
 };
 
 const SelectBox: React.FC<Props> = ({

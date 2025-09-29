@@ -1,8 +1,9 @@
-// services/admins/adminQueries.ts
 import { useQuery } from "@tanstack/react-query";
-import { fetchAdmins } from "./adminApi";
+import { getDashboardDetails } from "./adminApi";
 
-export const useAdmins = useQuery({
-  queryKey: ["admins"],
-  queryFn: fetchAdmins,
-});
+export const useGetStats = () => {
+  return useQuery({
+    queryKey: ["admins"],
+    queryFn: getDashboardDetails,
+  });
+};

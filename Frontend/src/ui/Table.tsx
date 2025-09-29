@@ -17,6 +17,7 @@ interface TableProps<T> {
   pageSize: number;
   total: number;
   onPageChange: (page: number) => void;
+  heading: string;
 }
 
 const Table = <T extends Record<string, any>>({
@@ -25,6 +26,7 @@ const Table = <T extends Record<string, any>>({
   page,
   pageSize,
   total,
+  heading,
   onPageChange,
 }: TableProps<T>) => {
   const [sortConfig, setSortConfig] = useState<{
@@ -63,6 +65,7 @@ const Table = <T extends Record<string, any>>({
       return 0;
     });
   }, [data, sortConfig]);
+
   const handleSort = (col: Column<T>) => {
     if (!col.sortable) return;
 
@@ -91,7 +94,6 @@ const Table = <T extends Record<string, any>>({
       return col.render(value, row);
     }
 
-    // Handle different types safely
     if (value === null || value === undefined) {
       return "";
     }
@@ -113,10 +115,9 @@ const Table = <T extends Record<string, any>>({
 
   return (
     <div className="bg-[var(--background)] rounded-2xl shadow-2xl overflow-hidden border  border-[var(--primary)]/20">
-      {/* Header with gradient */}
       <div className="bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] p-3">
         <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
-          Data Table
+          {heading}
         </h2>
       </div>
 
@@ -181,7 +182,6 @@ const Table = <T extends Record<string, any>>({
               </tr>
             ))}
 
-            {/* Empty rows for consistent height */}
             {emptyRows > 0 &&
               Array.from({ length: emptyRows }).map((_, i) => (
                 <tr key={`empty-${i}`} style={{ height: "57px" }}>
@@ -199,7 +199,6 @@ const Table = <T extends Record<string, any>>({
         </table>
       </div>
 
-      {/* Beautiful Pagination */}
       <div className="flex justify-between items-center p-6 bg-gradient-to-r from-[var(--background)] to-[var(--accent)]/20 border-t border-[var(--primary)]/10">
         <Button
           variant={page === 1 ? "ghost" : "primary"}
@@ -219,7 +218,6 @@ const Table = <T extends Record<string, any>>({
             </span>
           </div>
 
-          {/* Page numbers */}
           <div className="hidden md:flex gap-1">
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const pageNum =

@@ -16,7 +16,7 @@ import {
 export const sidebarLinks = [
   {
     icon: AiOutlineUserAdd,
-    text: "Add New",
+    text: "Add New User",
     link: addNew,
     accessTo: ["SYSTEM_ADMINISTRATOR"],
   },
@@ -25,23 +25,23 @@ export const sidebarLinks = [
     icon: AiOutlineUsergroupAdd,
     text: "Management",
     link: management,
-    accessTo: ["SYSTEM_ADMINISTRATOR", "STORE_OWNER"],
+    accessTo: ["SYSTEM_ADMINISTRATOR"],
   },
   {
     icon: AiOutlineStar,
-    text: "Give Rating",
+    text: "Rate Store",
     link: giveRating,
-    accessTo: ["USER"],
+    accessTo: ["USER", "STORE_OWNER"],
   },
   {
     icon: AiOutlineStar,
-    text: "See Ratings",
+    text: "Your Store Ratings",
     link: seeRatings,
     accessTo: ["STORE_OWNER"],
   },
   {
     icon: AiOutlineLock,
-    text: "Change Password",
+    text: "Change Your Password",
     link: resetPassword,
     accessTo: ["USER", "SYSTEM_ADMINISTRATOR", "STORE_OWNER"],
   },

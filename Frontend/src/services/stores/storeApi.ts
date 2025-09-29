@@ -6,6 +6,6 @@ export const getAllStore = async () => {
 };
 
 export const getOwnerStore = async (data: any) => {
-  const response = await api.post("/stores/store-owner", data);
+  const response = await api.get("/stores/store-owner", data);
   return response.data;
 };

@@ -7,6 +7,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 model User {
@@ -42,7 +43,6 @@ model Store {
 model Rating {
   id      String  @id @default(cuid())
   rating   Int 
-  comment String?
 
 
   user   User   @relation(fields: [userId], references: [id])

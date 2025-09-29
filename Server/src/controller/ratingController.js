@@ -14,7 +14,6 @@ export const ratingController = async (req, res) => {
       return res.status(400).json({ error: "Rating must be between 1 and 5" });
     }
 
-    // Check if user already rated this store
     const existingRating = await prisma.rating.findFirst({
       where: { userId, storeId },
     });
@@ -22,13 +21,11 @@ export const ratingController = async (req, res) => {
     let savedRating;
 
     if (existingRating) {
-      // 🔹 Update rating
       savedRating = await prisma.rating.update({
         where: { id: existingRating.id },
         data: { rating },
       });
     } else {
-      // 🔹 Create new rating
       savedRating = await prisma.rating.create({
         data: {
           rating,
